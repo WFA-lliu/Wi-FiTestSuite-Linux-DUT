@@ -335,7 +335,7 @@ int main(int argc, char *argv[])
                     /*
                      * send to DUT.
                      */
-                    if(send(gSock, pcmdBuf, cmdLen, 0) != cmdLen)
+                    if(wfaCtrlSend(gCaSockfd, pcmdBuf, cmdLen) != cmdLen)
                         {
                             st_timer = 0;
                             DPRINT_WARNING(WFA_WNG, "Incorrect sending ...\n");
