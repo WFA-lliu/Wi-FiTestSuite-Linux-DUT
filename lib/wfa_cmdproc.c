@@ -36,6 +36,12 @@
 #include "wfa_miscs.h"
 #include "wfa_agtctrl.h"
 
+#if defined(WFA_TEST_DOUBLE)
+extern int is_role_dut;
+extern char vendor[];
+extern char model[];
+#endif
+
 extern int gSock;
 extern void printProfile(tgProfile_t *);
 int wfaStandardBoolParsing (char *str);
@@ -155,10 +161,17 @@ int xcCmdProcGetVersion(char *pcmdStr, BYTE *aBuf, int *aLen)
     if(aBuf == NULL)
         return WFA_FAILURE;
 
+#if defined(WFA_TEST_DOUBLE)
+    /* encode the tag with hard-coded values */
+    char* VER = (0==is_role_dut)?"WFA-CA-v1.0.0":"WFA-DUT-v1.0.0";
+    sprintf(aBuf, "status,COMPLETE,version,%s", VER);
+    *aLen = strlen(aBuf);
+#else
     /* encode the tag without values */
     wfaEncodeTLV(WFA_GET_VERSION_TLV, 0, NULL, aBuf);
 
     *aLen = 4;
+#endif
 
     return WFA_SUCCESS;
 }
@@ -1884,6 +1897,13 @@ int xcCmdProcStaSetIBSS(char *pcmdStr, BYTE *aBuf, int *aLen)
 
 int xcCmdProcDeviceGetInfo(char *pcmdStr, BYTE *aBuf, int *aLen)
 {
+#if defined(WFA_TEST_DOUBLE)
+    const char* INFO_VER = (0==is_role_dut)?"v1.0.0":"v1.0.0b";
+    char* info_vend = (0 == strlen(vendor))?"WFA":vendor;
+    char* info_mod = (0==is_role_dut)?((0 == strlen(model))?"TEST_HARNESS":model):("DEVICE_UNDER_TEST");
+    sprintf(aBuf, "status,COMPLETE,vendor,%s,model,%s,version,%s", info_vend, info_mod, INFO_VER);
+    *aLen = strlen(aBuf);
+#else
     dutCommand_t *dutCmd = (dutCommand_t *) (aBuf+sizeof(wfaTLV));
     caDevInfo_t *dinfo = &dutCmd->cmdsu.dev;
     char *str;
@@ -1907,6 +1927,7 @@ int xcCmdProcDeviceGetInfo(char *pcmdStr, BYTE *aBuf, int *aLen)
     wfaEncodeTLV(WFA_DEVICE_GET_INFO_TLV, sizeof(dutCommand_t), (BYTE *)dutCmd, aBuf);
 
     *aLen = 4 + sizeof(dutCommand_t);
+#endif
 
     return WFA_SUCCESS;
 }
@@ -7385,6 +7406,15 @@ int xcCmdProcStaGetEventDetails(char *pcmdStr, BYTE *aBuf, int *aLen)
 	return WFA_SUCCESS;
 }
 
-
-
+#if defined(WFA_TEST_DOUBLE)
+int xcCmdProcSnifferGetInfo(char *pcmdStr, BYTE *aBuf, int *aLen)
+{
+    const char* INFO_WTS_VER = "Unspecified";
+    const char* INFO_TYPE = "TEST_DOUBLE";
+    const char* INFO_AGENT_VER = "Unspecified";
+    const char* INFO_TSHARK_VER = "Unspecified";
+    sprintf(aBuf, "status,COMPLETE,WfaSnifferVersion,%s,SnifferSTA,%s,SwInfo,%s,WiresharkVersion,%s", INFO_WTS_VER, INFO_TYPE, INFO_AGENT_VER, INFO_TSHARK_VER);
+    *aLen = strlen(aBuf);
+}
+#endif
 

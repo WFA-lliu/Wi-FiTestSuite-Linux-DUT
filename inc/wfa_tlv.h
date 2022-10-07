@@ -154,6 +154,10 @@ enum cmd_tags
   
    WFA_STA_EXEC_ACTION_TLV,			/* 86 */
    WFA_STA_SCAN_TLV, /* 87 */
+
+#if defined(WFA_TEST_DOUBLE)
+   WFA_SNIFFER_GET_INFO, /* 88 */
+#endif
 };
 
 

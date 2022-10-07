@@ -127,6 +127,9 @@ extern int xcCmdProcStaManageService(char *, BYTE *, int *);
 extern int xcCmdProcStaGetEvents(char *pcmdStr, BYTE *, int *);
 extern int xcCmdProcStaGetEventDetails(char *, BYTE *, int *);
 
+#if defined(WFA_TEST_DOUBLE)
+extern int xcCmdProcSnifferGetInfo(char *pcmdStr, BYTE *, int *);
+#endif
 
 /*
  * Initialize a command name table to its defined type and process function
@@ -226,7 +229,10 @@ typeNameStr_t nameStr[] =
    {WFA_STA_MANAGE_SERVICE_TLV, "sta_manage_service", xcCmdProcStaManageService},
    {WFA_STA_GET_EVENTS_TLV, "sta_get_events", xcCmdProcStaGetEvents},
    {WFA_STA_GET_EVENT_DETAILS_TLV, "sta_get_event_details", xcCmdProcStaGetEventDetails},
-   
+
+#if defined(WFA_TEST_DOUBLE)
+   {WFA_SNIFFER_GET_INFO, "sniffer_get_info", xcCmdProcSnifferGetInfo},
+#endif
       
    {-1, "", NULL},
 };

@@ -42,7 +42,10 @@ MAKE=make
 #CFLAGS = -g -O2 -D_REENTRANT  -DWFA_WMM_PS_EXT -DWFA_WMM_AC -DWFA_PC_CONSOLE -DWFA_STA_TB -Wall -I../inc
 
 # This is for WPA2 as default
-CFLAGS = -g -O2 -D_REENTRANT -Wall -I../inc
+#CFLAGS = -g -O2 -D_REENTRANT -Wall -I../inc
+
+# This is for WPA2 as default, with experimental test-double
+CFLAGS = -g -O2 -D_REENTRANT -DWFA_TEST_DOUBLE -Wall -I../inc
 
 DUTLIBS = ../lib/libwfa_dut.a -lpthread
 CALIBS = ../lib/libwfa_ca.a -lpthread

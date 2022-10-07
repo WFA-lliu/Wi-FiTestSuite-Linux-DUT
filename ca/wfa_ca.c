@@ -57,6 +57,14 @@ long          itimeout = 0;
 unsigned short wfa_defined_debug = WFA_DEBUG_ERR | WFA_DEBUG_WARNING | WFA_DEBUG_INFO;
 unsigned short dfd_lvl = WFA_DEBUG_DEFAULT | WFA_DEBUG_ERR | WFA_DEBUG_INFO;
 
+#if defined(WFA_TEST_DOUBLE)
+int is_role_dut = 0;
+char vendor[WFA_BUFF_32] = {'\0'};
+char model[WFA_BUFF_32] = {'\0'};
+#define WFA_ENV_AGENT_VENDOR "WFA_ENV_AGENT_VENDOR"
+#define WFA_ENV_AGENT_MODEL "WFA_ENV_AGENT_MODEL"
+#endif
+
 /*
  * the output format can be redefined for file output.
  */
@@ -144,6 +152,21 @@ int main(int argc, char *argv[])
                 return WFA_FAILURE;
             servPort = atoi(tstr);
         }
+
+#if defined(WFA_TEST_DOUBLE)
+	if(strstr(argv[0], "dut") != NULL || strstr(argv[0], "DUT") != NULL)
+	{
+		is_role_dut = 1;
+	}
+	if((tstr = getenv("WFA_ENV_AGENT_VENDOR")) != NULL)
+	{
+		strncpy(vendor, tstr, sizeof(vendor)-1);
+	}
+	if((tstr = getenv("WFA_ENV_AGENT_MODEL")) != NULL)
+	{
+		strncpy(model, tstr, sizeof(model)-1);
+	}
+#endif
 
     tmsockfd = wfaCreateTCPServSock(myport);
 
