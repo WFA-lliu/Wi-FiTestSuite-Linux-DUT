@@ -22,6 +22,8 @@
 #include <sys/socket.h>
 #include <net/if.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include "wfa_con.h"
 extern struct sockaddr_in target;
@@ -34,8 +36,13 @@ extern struct station stations[NSTA];
 extern int port,rd,sd,can_quit  ;
 extern struct apts_msg apts_msgs[];
 extern char traceflag;				// enable debug packet tracing
-int tos_vo,tos_vi,tos_be,tos_bk;
+extern int tos_vo,tos_vi,tos_be,tos_bk;
+extern void WfaConResetAll(void);
 void exit(int);
+int is_ipdotformat(char *);
+void pbaddr(char *, unsigned long int);
+int set_dscp(int);
+int  strvec_sep(char *s, char * array[], int n, char * sep);
 char getipclass(unsigned long ip)
 {
 
@@ -199,7 +206,7 @@ int setup_addr(char *name, struct sockaddr *dst)
     }
     return(r);
 }
-void setup_socket()
+void setup_socket(void)
 {
     char name[256];
     int dscp = 0;
@@ -444,7 +451,8 @@ int get_sta_id(unsigned int addr)
     }
     return(id);
 }
-is_ipdotformat(char *s)
+
+int is_ipdotformat(char *s)
 {
     int d;
 
@@ -481,7 +489,7 @@ int n;
     return(i);
 }
 
-pbaddr(s, in)
+void pbaddr(s, in)
 char *s;
 unsigned long int in;
 {

@@ -1159,4 +1159,6 @@ void * wfa_wmm_thread(void *thr_param)
         }
 
     }
+    (void)asn;
+    (void)ret;
 }

@@ -23,7 +23,11 @@
 #include <sys/socket.h>
 #include <net/if.h>
 #include <sys/ioctl.h>
-#include <rpc/rpc.h>
+//#include <rpc/rpc.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <stdlib.h>
 #include <linux/ip.h>
 #include <errno.h>
 #include <string.h>
@@ -177,13 +181,20 @@ struct station stations[NSTA];
 char *procname;                 // dst system name or ip address
 int sd,rd;                      // socket descriptor
 void WfaConResetAll();
+extern int set_dscp(int);
+extern void create_apts_msg(int msg, unsigned int txbuf[], int id);
+extern void setup_socket(void);
+extern struct apts_msg * apts_lookup(char *s);
+extern int get_sta_id(unsigned int addr);
+extern int assign_sta_id(unsigned int addr);
+extern void mpx(char *m, void *buf_v, int len);
 
 void IAmDead()
 {
     printf("Time to Die...\n");
     exit(-10);
 }
-void WfaConResetAll()
+void WfaConResetAll(void)
 {
     int r;
     reset=1;
@@ -248,7 +259,8 @@ void* timerthread(void* period)
         }
     }
 }
-main(int argc, char **argv)
+
+void main(int argc, char **argv)
 {
     int r, flags=0, n, i, id,base=10, bKeepFrom = 0;
     struct apts_msg *testcase;

@@ -18,6 +18,8 @@
 #include "wfa_con.h"
 #include <sys/time.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <string.h>
 extern struct sockaddr dst;         // sock declarations
@@ -29,6 +31,12 @@ extern struct station stations[NSTA];
 extern struct sockaddr_in from;
 extern char traceflag;				// enable debug packet tracing
 extern int tos_vo,tos_vi,tos_be,tos_bk;
+extern void mpx(char *m, void *buf_v, int len);
+extern int set_dscp(int);
+extern int set_dscp0(int);
+extern int expectedmsgrcd(unsigned int *, unsigned long, int);
+extern int expectedmsgrcdl1(unsigned int *, unsigned long, int);
+extern void create_apts_msg(int msg, unsigned int txbuf[], int id);
 int can_quit=1;
 void exit(int);
 

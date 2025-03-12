@@ -125,7 +125,7 @@
 #define WFA_MCAST_FRATE            50       /* Multicast test rate is fixed at 50 frames/sec */
 
 #define WFA_G_CODEC_RATE            50       /* G.729 50 pkt per second  = 20 ms interval */
-#define WFA_DSCP_TABLE_SIZE         15
+#define WFA_DSCP_TABLE_SIZE         16
 
 typedef struct _tg_stats
 {

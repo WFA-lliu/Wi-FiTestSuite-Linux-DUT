@@ -103,7 +103,7 @@ int getParamValueInt(char *pcmdStr, char *pParam, int *paramValue)
     if(strcasecmp(pcmdStr, pParam) == 0)
     {
         str = strtok_r(NULL, ",", &pcmdStr);
-        paramValue = atoi(str);
+        *paramValue = atoi(str);
         return 0;
     }
     return -1;
@@ -164,8 +164,8 @@ int xcCmdProcGetVersion(char *pcmdStr, BYTE *aBuf, int *aLen)
 #if defined(WFA_TEST_DOUBLE)
     /* encode the tag with hard-coded values */
     char* VER = (0==is_role_dut)?"WFA-CA-v1.0.0":"WFA-DUT-v1.0.0";
-    sprintf(aBuf, "status,COMPLETE,version,%s", VER);
-    *aLen = strlen(aBuf);
+    sprintf((char*)aBuf, "status,COMPLETE,version,%s", VER);
+    *aLen = strlen((char*)aBuf);
 #else
     /* encode the tag without values */
     wfaEncodeTLV(WFA_GET_VERSION_TLV, 0, NULL, aBuf);
@@ -477,7 +477,7 @@ int xcCmdProcAgentConfig(char *pcmdStr, BYTE *aBuf, int *aLen)
                     break;
 				
 				case KW_HTI:
-					 str = strtok_r(NULL, ",", (char *)&pcmdStr);
+					 str = strtok_r(NULL, ",", &pcmdStr);
 					 if (strcasecmp(str, "on") == 0)
 						 {
 					pf->hti = 1;
@@ -1102,7 +1102,7 @@ int xcCmdProcStaVerifyIpConnection(char *pcmdStr, BYTE *aBuf, int *aLen)
             str = strtok_r(NULL, ",", &pcmdStr);
             strcpy(verifyip->intf, str);
             verifyip->intf[15]='\0';
-            DPRINT_INFO(WFA_OUT, "interface %s %i\n", verifyip->intf, strlen(verifyip->intf));
+            DPRINT_INFO(WFA_OUT, "interface %s %ld\n", verifyip->intf, strlen(verifyip->intf));
         }
         else if(strcasecmp(str, "destination") == 0)
         {
@@ -1901,8 +1901,8 @@ int xcCmdProcDeviceGetInfo(char *pcmdStr, BYTE *aBuf, int *aLen)
     const char* INFO_VER = (0==is_role_dut)?"v1.0.0":"v1.0.0b";
     char* info_vend = (0 == strlen(vendor))?"WFA":vendor;
     char* info_mod = (0==is_role_dut)?((0 == strlen(model))?"TEST_HARNESS":model):("DEVICE_UNDER_TEST");
-    sprintf(aBuf, "status,COMPLETE,vendor,%s,model,%s,version,%s", info_vend, info_mod, INFO_VER);
-    *aLen = strlen(aBuf);
+    sprintf((char*)aBuf, "status,COMPLETE,vendor,%s,model,%s,version,%s", info_vend, info_mod, INFO_VER);
+    *aLen = strlen((char*)aBuf);
 #else
     dutCommand_t *dutCmd = (dutCommand_t *) (aBuf+sizeof(wfaTLV));
     caDevInfo_t *dinfo = &dutCmd->cmdsu.dev;
@@ -5990,7 +5990,7 @@ int xcCmdProcStaCliCommand(char *pcmdStr, BYTE *aBuf, int *aLen)
 {
 
     printf("\n The CA CLI command to DUT is : %s",pcmdStr);
-    printf("\n The CA CLI command to DUT Length : %d",strlen(pcmdStr));
+    printf("\n The CA CLI command to DUT Length : %ld",strlen(pcmdStr));
     wfaEncodeTLV(WFA_STA_CLI_CMD_TLV, strlen(pcmdStr), (BYTE *)pcmdStr, aBuf);
 
     *aLen = 4+strlen(pcmdStr);
@@ -7226,7 +7226,7 @@ int xcCmdProcStaManageService(char *pcmdStr, BYTE *aBuf, int *aLen)
 						 if (subtoken == NULL)
 							 break;
 						 strncpy(staManageServCmd->MngCmds.MgtServ.fileList[index],str,16);
-						 staManageServCmd->MngCmds.MgtServ.fileList[index][16]='\0';
+						 staManageServCmd->MngCmds.MgtServ.fileList[index][16-1]='\0';
 						 index++;
 					}
 					staManageServCmd->MngCmds.MgtServ.numModFiles= index;					
@@ -7244,7 +7244,7 @@ int xcCmdProcStaManageService(char *pcmdStr, BYTE *aBuf, int *aLen)
 						 if (subtoken == NULL)
 							 break;
 						 strncpy(staManageServCmd->MngCmds.MgtServ.modFileList[index],str,16);
-						 staManageServCmd->MngCmds.MgtServ.modFileList[index][16]='\0';
+						 staManageServCmd->MngCmds.MgtServ.modFileList[index][16-1]='\0';
 						 index++;
 					}
 					staManageServCmd->MngCmds.MgtServ.numModFiles= index;					
@@ -7413,8 +7413,9 @@ int xcCmdProcSnifferGetInfo(char *pcmdStr, BYTE *aBuf, int *aLen)
     const char* INFO_TYPE = "TEST_DOUBLE";
     const char* INFO_AGENT_VER = "Unspecified";
     const char* INFO_TSHARK_VER = "Unspecified";
-    sprintf(aBuf, "status,COMPLETE,WfaSnifferVersion,%s,SnifferSTA,%s,SwInfo,%s,WiresharkVersion,%s", INFO_WTS_VER, INFO_TYPE, INFO_AGENT_VER, INFO_TSHARK_VER);
-    *aLen = strlen(aBuf);
+    sprintf((char*)aBuf, "status,COMPLETE,WfaSnifferVersion,%s,SnifferSTA,%s,SwInfo,%s,WiresharkVersion,%s", INFO_WTS_VER, INFO_TYPE, INFO_AGENT_VER, INFO_TSHARK_VER);
+    *aLen = strlen((char*)aBuf);
+    return WFA_SUCCESS;
 }
 #endif
 

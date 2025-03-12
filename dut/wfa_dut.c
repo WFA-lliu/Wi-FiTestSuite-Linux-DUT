@@ -82,7 +82,7 @@ extern     char gCmdStr[];
 extern     tgStream_t *findStreamProfile(int);
 extern     int clock_drift_ps;
 
-dutCmdResponse_t gGenericResp;
+extern dutCmdResponse_t gGenericResp;
 
 /* Debug message flags */
 unsigned short wfa_defined_debug = WFA_DEBUG_ERR | WFA_DEBUG_WARNING | WFA_DEBUG_INFO;
@@ -91,7 +91,7 @@ unsigned short dfd_lvl = WFA_DEBUG_DEFAULT | WFA_DEBUG_ERR | WFA_DEBUG_INFO;
 /*
  * Thread Synchronize flags
  */
-tgWMM_t wmm_thr[WFA_THREADS_NUM];
+extern tgWMM_t wmm_thr[];
 
 extern void *wfa_wmm_thread(void *thr_param);
 extern void *wfa_wmmps_thread();
