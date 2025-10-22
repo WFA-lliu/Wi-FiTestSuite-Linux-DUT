@@ -129,6 +129,8 @@ extern int xcCmdProcStaGetEventDetails(char *, BYTE *, int *);
 
 #if defined(WFA_TEST_DOUBLE)
 extern int xcCmdProcSnifferGetInfo(char *pcmdStr, BYTE *, int *);
+extern int xcCmdProcApGeneric(char *pcmdStr, BYTE *, int *);
+extern int xcCmdProcStaGeneric(char *pcmdStr, BYTE *, int *);
 #endif
 
 /*
@@ -182,12 +184,21 @@ typeNameStr_t nameStr[] =
     {WFA_STA_SET_SYSTIME_TLV, "sta_set_systime", xcCmdProcStaSetSystime},
     {WFA_STA_SET_PWRSAVE_TLV, "sta_set_pwrsave", xcCmdProcStaSetPwrSave},
 #ifdef WFA_STA_TB
+#if defined(WFA_TEST_DOUBLE)
+    {WFA_STA_RESET_DEFAULT_TLV, "sta_reset_default", xcCmdProcStaGeneric},
+    {WFA_STA_SET_11N_TLV, "sta_set_11n", xcCmdProcStaGeneric},
+    {WFA_STA_SET_WIRELESS_TLV, "sta_set_wireless", xcCmdProcStaGeneric},
+    {WFA_STA_SEND_ADDBA_TLV, "sta_send_addba", xcCmdProcStaGeneric},
+    {WFA_STA_SET_RIFS_TEST_TLV, "sta_set_rifs_test", xcCmdProcStaGeneric},
+    {WFA_STA_SEND_COEXIST_MGMT_TLV, "sta_send_coexist_mgmt", xcCmdProcStaGeneric},
+#else
     {WFA_STA_RESET_DEFAULT_TLV, "sta_reset_default", xcCmdProcStaResetDefault},
     {WFA_STA_SET_11N_TLV, "sta_set_11n", xcCmdProcStaSet11n},
     {WFA_STA_SET_WIRELESS_TLV, "sta_set_wireless", xcCmdProcStaSetWireless},
     {WFA_STA_SEND_ADDBA_TLV, "sta_send_addba", xcCmdProcStaSendADDBA},
     {WFA_STA_SET_RIFS_TEST_TLV, "sta_set_rifs_test", xcCmdProcStaSetRIFS},
     {WFA_STA_SEND_COEXIST_MGMT_TLV, "sta_send_coexist_mgmt", xcCmdProcStaSendCoExistMGMT},
+#endif
 #endif
    {WFA_STA_P2P_GET_DEV_ADDRESS_TLV, "sta_get_p2p_dev_address", xcCmdProcStaGetP2pDevAddress},
    {WFA_STA_P2P_SETP2P_TLV, "sta_set_p2p", xcCmdProcStaSetP2p},
@@ -232,6 +243,9 @@ typeNameStr_t nameStr[] =
 
 #if defined(WFA_TEST_DOUBLE)
    {WFA_SNIFFER_GET_INFO, "sniffer_get_info", xcCmdProcSnifferGetInfo},
+   {WFA_AP_RESET_DEFAULT, "ap_reset_default", xcCmdProcApGeneric},
+   {WFA_AP_SET_WIRELESS, "ap_set_wireless", xcCmdProcApGeneric},
+   {WFA_AP_SET_RFEATURE, "ap_set_rfeature", xcCmdProcApGeneric},
 #endif
       
    {-1, "", NULL},

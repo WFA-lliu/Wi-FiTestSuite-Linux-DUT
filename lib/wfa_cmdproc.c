@@ -2105,6 +2105,12 @@ int xcCmdProcDeviceListIF(char *pcmdStr, BYTE *aBuf, int *aLen)
 
     memset(aBuf, 0, *aLen);
 
+#if defined(WFA_TEST_DOUBLE)
+    /* encode the tag with hard-coded values */
+    char* INTF = (0==is_role_dut)?"explore":"exploit";
+    sprintf((char*)aBuf, "status,COMPLETE,interfaceType,802.11,interfaceId,%s", INTF);
+    *aLen = strlen((char*)aBuf);
+#else
     str = strtok_r(NULL, ",", &pcmdStr);
     if(str == NULL || str[0] == '\0')
         return WFA_FAILURE;
@@ -2121,6 +2127,7 @@ int xcCmdProcDeviceListIF(char *pcmdStr, BYTE *aBuf, int *aLen)
     wfaEncodeTLV(WFA_DEVICE_LIST_IF_TLV, sizeof(dutCommand_t), (BYTE *)getdevlist, aBuf);
 
     *aLen = 4 + sizeof(dutCommand_t);
+#endif
 
 #if DEBUG
     for(i = 0; i< len; i++)
@@ -7414,6 +7421,22 @@ int xcCmdProcSnifferGetInfo(char *pcmdStr, BYTE *aBuf, int *aLen)
     const char* INFO_AGENT_VER = "Unspecified";
     const char* INFO_TSHARK_VER = "Unspecified";
     sprintf((char*)aBuf, "status,COMPLETE,WfaSnifferVersion,%s,SnifferSTA,%s,SwInfo,%s,WiresharkVersion,%s", INFO_WTS_VER, INFO_TYPE, INFO_AGENT_VER, INFO_TSHARK_VER);
+    *aLen = strlen((char*)aBuf);
+    return WFA_SUCCESS;
+}
+
+int xcCmdProcApGeneric(char *pcmdStr, BYTE *aBuf, int *aLen)
+{
+    const char* EXTRA = (0==is_role_dut)?",Extra,dummy":",Extra,redundant";
+    sprintf((char*)aBuf, "status,COMPLETE%s", EXTRA);
+    *aLen = strlen((char*)aBuf);
+    return WFA_SUCCESS;
+}
+
+int xcCmdProcStaGeneric(char *pcmdStr, BYTE *aBuf, int *aLen)
+{
+    const char* EXTRA = (0==is_role_dut)?",Extra,Dummy":",Extra,Redundant";
+    sprintf((char*)aBuf, "status,COMPLETE%s", EXTRA);
     *aLen = strlen((char*)aBuf);
     return WFA_SUCCESS;
 }
