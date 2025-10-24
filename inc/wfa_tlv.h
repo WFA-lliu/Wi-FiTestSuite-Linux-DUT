@@ -160,6 +160,8 @@ enum cmd_tags
    WFA_AP_RESET_DEFAULT, /* 89 */
    WFA_AP_SET_WIRELESS, /* 90 */
    WFA_AP_SET_RFEATURE, /* 91 */
+   WFA_AP_SET_SECURITY, /* 92 */
+   WFA_AP_CONFIG_COMMIT, /* 93 */
 #endif
 };
 

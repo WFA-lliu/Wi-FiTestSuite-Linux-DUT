@@ -246,6 +246,8 @@ typeNameStr_t nameStr[] =
    {WFA_AP_RESET_DEFAULT, "ap_reset_default", xcCmdProcApGeneric},
    {WFA_AP_SET_WIRELESS, "ap_set_wireless", xcCmdProcApGeneric},
    {WFA_AP_SET_RFEATURE, "ap_set_rfeature", xcCmdProcApGeneric},
+   {WFA_AP_SET_SECURITY, "ap_set_security", xcCmdProcApGeneric},
+   {WFA_AP_CONFIG_COMMIT, "ap_config_commit", xcCmdProcApGeneric},
 #endif
       
    {-1, "", NULL},
