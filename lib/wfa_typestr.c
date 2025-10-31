@@ -132,6 +132,7 @@ extern int xcCmdProcSnifferGetInfo(char *pcmdStr, BYTE *, int *);
 extern int xcCmdProcSnifferGeneric(char *pcmdStr, BYTE *, int *);
 extern int xcCmdProcApGeneric(char *pcmdStr, BYTE *, int *);
 extern int xcCmdProcStaGeneric(char *pcmdStr, BYTE *, int *);
+extern int xcCmdProcDevGeneric(char *pcmdStr, BYTE *, int *);
 #endif
 
 /*
@@ -250,6 +251,16 @@ typeNameStr_t nameStr[] =
    {WFA_AP_SET_RFEATURE, "ap_set_rfeature", xcCmdProcApGeneric},
    {WFA_AP_SET_SECURITY, "ap_set_security", xcCmdProcApGeneric},
    {WFA_AP_CONFIG_COMMIT, "ap_config_commit", xcCmdProcApGeneric},
+   {WFA_DEV_RESET_DEFAULT, "dev_reset_default", xcCmdProcDevGeneric},
+   {WFA_DEV_SET_WIRELESS, "dev_set_wireless", xcCmdProcDevGeneric},
+   {WFA_DEV_SET_SECURITY, "dev_set_security", xcCmdProcDevGeneric},
+   {WFA_DEV_CONFIG_COMMIT, "dev_config_commit", xcCmdProcDevGeneric},
+   {WFA_DEV_GET_MAC_ADDRESS, "dev_get_mac_address", xcCmdProcDevGeneric},
+   {WFA_DEV_MEAS_START, "dev_meas_start", xcCmdProcDevGeneric},
+   {WFA_DEV_MEAS_STOP, "dev_meas_stop", xcCmdProcDevGeneric},
+   {WFA_DEV_SET_MEASPARAM, "dev_set_measparam", xcCmdProcDevGeneric},
+   {WFA_DEV_GET_MEASRSLT, "dev_get_measrslt", xcCmdProcDevGeneric},
+   {WFA_DEV_GET_MEASLOG, "dev_get_measlog", xcCmdProcDevGeneric},
 #endif
       
    {-1, "", NULL},
