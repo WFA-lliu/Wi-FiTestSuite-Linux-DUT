@@ -7425,6 +7425,14 @@ int xcCmdProcSnifferGetInfo(char *pcmdStr, BYTE *aBuf, int *aLen)
     return WFA_SUCCESS;
 }
 
+int xcCmdProcSnifferGeneric(char *pcmdStr, BYTE *aBuf, int *aLen)
+{
+    const char* EXTRA = (0==is_role_dut)?",Extra,dummy":",Extra,redundant";
+    sprintf((char*)aBuf, "status,COMPLETE%s", EXTRA);
+    *aLen = strlen((char*)aBuf);
+    return WFA_SUCCESS;
+}
+
 int xcCmdProcApGeneric(char *pcmdStr, BYTE *aBuf, int *aLen)
 {
     const char* EXTRA = (0==is_role_dut)?",Extra,dummy":",Extra,redundant";

@@ -129,6 +129,7 @@ extern int xcCmdProcStaGetEventDetails(char *, BYTE *, int *);
 
 #if defined(WFA_TEST_DOUBLE)
 extern int xcCmdProcSnifferGetInfo(char *pcmdStr, BYTE *, int *);
+extern int xcCmdProcSnifferGeneric(char *pcmdStr, BYTE *, int *);
 extern int xcCmdProcApGeneric(char *pcmdStr, BYTE *, int *);
 extern int xcCmdProcStaGeneric(char *pcmdStr, BYTE *, int *);
 #endif
@@ -243,6 +244,7 @@ typeNameStr_t nameStr[] =
 
 #if defined(WFA_TEST_DOUBLE)
    {WFA_SNIFFER_GET_INFO, "sniffer_get_info", xcCmdProcSnifferGetInfo},
+   {WFA_SNIFFER_CONTROL_UPLOAD, "sniffer_control_upload", xcCmdProcSnifferGeneric},
    {WFA_AP_RESET_DEFAULT, "ap_reset_default", xcCmdProcApGeneric},
    {WFA_AP_SET_WIRELESS, "ap_set_wireless", xcCmdProcApGeneric},
    {WFA_AP_SET_RFEATURE, "ap_set_rfeature", xcCmdProcApGeneric},

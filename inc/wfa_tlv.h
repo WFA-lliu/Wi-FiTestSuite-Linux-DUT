@@ -157,11 +157,12 @@ enum cmd_tags
 
 #if defined(WFA_TEST_DOUBLE)
    WFA_SNIFFER_GET_INFO, /* 88 */
-   WFA_AP_RESET_DEFAULT, /* 89 */
-   WFA_AP_SET_WIRELESS, /* 90 */
-   WFA_AP_SET_RFEATURE, /* 91 */
-   WFA_AP_SET_SECURITY, /* 92 */
-   WFA_AP_CONFIG_COMMIT, /* 93 */
+   WFA_SNIFFER_CONTROL_UPLOAD, /* 89 */
+   WFA_AP_RESET_DEFAULT, /* 90 */
+   WFA_AP_SET_WIRELESS, /* 91 */
+   WFA_AP_SET_RFEATURE, /* 92 */
+   WFA_AP_SET_SECURITY, /* 93 */
+   WFA_AP_CONFIG_COMMIT, /* 94 */
 #endif
 };
 
